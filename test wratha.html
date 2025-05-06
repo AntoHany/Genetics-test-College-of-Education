@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان في الوراثة ودورة الخلية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .question.unanswered {
+            border: 2px solid #ff0000;
+        }
+        .question img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 8px 0;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .selected {
+            background-color: #d3d3d3;
+        }
+        .correct {
+            background-color: #a3d8a3;
+        }
+        .incorrect {
+            background-color: #ffa3a3;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            display: none;
+        }
+        .phase-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>امتحان في الوراثة ودورة الخلية</h1>
+        
+        <div id="quiz">
+            <!-- الأسئلة سيتم إضافتها بواسطة JavaScript -->
+        </div>
+        
+        <button id="submit-btn">إنهاء الإمتحان</button>
+        
+        <div id="result"></div>
+        <div>Anton Hany</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizData = [
+                {
+                    question: "ما هي المرحلة الأولى من دورة الخلية؟",
+                    options: ["المرحلة G1", "المرحلة S", "المرحلة G2", "المرحلة M"],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "في أي مرحلة من دورة الخلية يتضاعف الحمض النووي؟",
+                    options: ["المرحلة G1", "المرحلة S", "المرحلة G2", "المرحلة M"],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تلي المرحلة G2 في دورة الخلية؟",
+                    options: ["المرحلة G1", "المرحلة S", "المرحلة G0", "المرحلة M"],
+                    answer: 3,
+                    image: null
+                },
+                {
+                    question: "ما نوع الانقسام الذي يحدث في الخلايا الجنسية؟",
+                    options: ["الانقسام الميتوزي", "الانقسام الاختزالي", "الانقسام الثنائي", "الانقسام المتساوي"],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "كم عدد الخلايا الناتجة عن الانقسام الاختزالي؟",
+                    options: ["1", "2", "4", "8"],
+                    answer: 2,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"],
+                    answer: 1,
+                    image: "./mytozy/astwaay.jpg"
+                },
+                {
+                    question: "في أي مرحلة من الانقسام الميتوزي ينقسم السنترومير؟",
+                    options: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"],
+                    answer: 2,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في الطور النهائي من الانقسام الميتوزي؟",
+                    options: [
+                        "تتكثف الكروموسومات",
+                        "ينقسم السنترومير",
+                        "يتكون غلاف نووي جديد",
+                        "تتشكل ألياف المغزل"
+                    ],
+                    answer: 2,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"],
+                    answer: 3,
+                    image: "./mytozy/nhaeee.jpg"
+                },
+                {
+                    question: "ما الذي يحدث في الطور التمهيدي الأول من الانقسام الاختزالي؟",
+                    options: [
+                        "ينقسم السنترومير",
+                        "يحدث اقتران للكروموسومات المتشابهة",
+                        "يتكون غلاف نووي جديد",
+                        "تنفصل الكروماتيدات الشقيقة"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة الفرعية من الطور التمهيدي الأول التي يحدث فيها العبور؟",
+                    options: ["الطور القلادي", "الطور التزاوجي", "الطور السنتروميري الضام", "الطور التشتتي"],
+                    answer: 2,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في الطور الانفصالي الأول من الانقسام الاختزالي؟",
+                    options: [
+                        "تنفصل الكروماتيدات الشقيقة",
+                        "تنفصل الكروموسومات المتماثلة",
+                        "يتكون غلاف نووي جديد",
+                        "تتكثف الكروموسومات"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي الأول", "الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول"],
+                    answer: 0,
+                    image: "./myozy/tmhede1.jpg"
+                },
+                {
+                    question: "ما الذي يحدث في الطور الانفصالي الثاني من الانقسام الاختزالي؟",
+                    options: [
+                        "تنفصل الكروماتيدات الشقيقة",
+                        "تنفصل الكروموسومات المتماثلة",
+                        "يتكون غلاف نووي جديد",
+                        "تتكثف الكروموسومات"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما هي النتيجة النهائية للانقسام الاختزالي؟",
+                    options: [
+                        "خليتين ثنائيتين الصبغة",
+                        "أربع خلايا أحادية الصبغة",
+                        "خليتين أحاديتين الصبغة",
+                        "أربع خلايا ثنائية الصبغة"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في انقسام السيتوبلازم؟",
+                    options: [
+                        "تتكثف الكروموسومات",
+                        "ينقسم السنترومير",
+                        "ينقسم السيتوبلازم إلى قسمين",
+                        "تتشكل ألياف المغزل"
+                    ],
+                    answer: 2,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي الثاني", "الطور الاستوائي الثاني", "الطور الانفصالي الثاني", "الطور النهائي الثاني"],
+                    answer: 1,
+                    image: "./myozy/astwaee2.jpg"
+                },
+                {
+                    question: "ما هو الكروموسوم الحلقي؟",
+                    options: [
+                        "كروموسوم على شكل حلقة ناتج عن كسر مزدوج",
+                        "كروموسوم يحتوي على سنتروميرين",
+                        "كروموسوم متضاعف بشكل غير طبيعي",
+                        "كروموسوم مفقود جزء منه"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما الذي يسبب تبعثر الكروموسومات؟",
+                    options: [
+                        "زيادة تكاثر الحمض النووي",
+                        "عيوب في تكون خيوط المغزل",
+                        "عدم وجود سنترومير",
+                        "زيادة سماكة الكروموسومات"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي الخلية ثنائية النواة؟",
+                    options: [
+                        "خلية تحتوي على نواتين نتيجة عدم حدوث انقسام سيتوبلازمي",
+                        "خلية تحتوي على كروموسومين فقط",
+                        "خلية في المرحلة G0",
+                        "خلية جنسية ناضجة"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في الطور القلادي؟",
+                    options: [
+                        "يحدث اقتران للكروموسومات المتشابهة",
+                        "تبدأ الكروموسومات بالتكثف",
+                        "ينقسم السنترومير",
+                        "يتكون غلاف نووي جديد"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي نقطة الاتصال بين الكروموسومات المتماثلة تسمى؟",
+                    options: ["السنترومير", "الكيازما", "التيلومير", "الكروماتيد"],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في الطور التشتتي؟",
+                    options: [
+                        "يتم دفع الكيازما إلى نهايات الكروموسوم",
+                        "تبدأ الكروموسومات بالتكثف",
+                        "يحدث اقتران للكروموسومات المتشابهة",
+                        "تنفصل الكروماتيدات الشقيقة"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"],
+                    answer: 0,
+                    image: "./mytozy/tmhedy.jpg"
+                },
+                {
+                    question: "ما الذي يحدث في الطور الاستوائي من الانقسام الميتوزي؟",
+                    options: [
+                        "تتكثف الكروموسومات",
+                        "تترتب الكروموسومات في خط الاستواء",
+                        "ينقسم السنترومير",
+                        "يتكون غلاف نووي جديد"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي قنطرة الكروموسوم؟",
+                    options: [
+                        "اتصال بين كروموسومين بسبب كسر في الحمض النووي",
+                        "كروموسوم على شكل حلقة",
+                        "كروموسوم يحتوي على سنتروميرين",
+                        "كروموسوم متأخر في الانقسام"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما هو الكروموسوم المتأخر؟",
+                    options: [
+                        "كروموسوم يفشل في الانفصال بشكل صحيح",
+                        "كروموسوم على شكل حلقة",
+                        "كروموسوم يحتوي على سنتروميرين",
+                        "كروموسوم مكسور"
+                    ],
+                    answer: 0,
+                    image: null
+                },
+                {
+                    question: "ما الذي يحدث في الطور التزاوجي؟",
+                    options: [
+                        "تبدأ الكروموسومات بالتكثف",
+                        "يحدث اقتران للكروموسومات المتشابهة",
+                        "ينقسم السنترومير",
+                        "يتكون غلاف نووي جديد"
+                    ],
+                    answer: 1,
+                    image: null
+                },
+                {
+                    question: "ما هي المرحلة التي تظهر في الصورة؟",
+                    options: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"],
+                    answer: 2,
+                    image: "./mytozy/anfsaly.jpg"
+                }
+            ];
+
+            const quizContainer = document.getElementById('quiz');
+            const submitButton = document.getElementById('submit-btn');
+            const resultContainer = document.getElementById('result');
+
+            // إنشاء الأسئلة وعرضها
+            quizData.forEach((questionData, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                questionElement.dataset.index = index;
+                
+                const questionText = document.createElement('h3');
+                questionText.textContent = `سؤال ${index + 1}: ${questionData.question}`;
+                questionElement.appendChild(questionText);
+                
+                if (questionData.image) {
+                    const imageElement = document.createElement('img');
+                    imageElement.src = questionData.image;
+                    imageElement.className = 'phase-image';
+                    imageElement.alt = 'صورة توضيحية للمرحلة';
+                    questionElement.appendChild(imageElement);
+                }
+                
+                const optionsElement = document.createElement('div');
+                optionsElement.className = 'options';
+                
+                questionData.options.forEach((option, optionIndex) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    optionElement.textContent = option;
+                    optionElement.dataset.index = optionIndex;
+                    optionElement.addEventListener('click', function() {
+                        // إزالة التحديد من جميع الخيارات في هذا السؤال
+                        const allOptions = this.parentElement.querySelectorAll('.option');
+                        allOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // تحديد الخيار الحالي
+                        this.classList.add('selected');
+                        
+                        // حفظ الإجابة المختارة
+                        questionData.selected = optionIndex;
+                        
+                        // إزالة علامة السؤال غير المجاب عليه إذا كانت موجودة
+                        this.closest('.question').classList.remove('unanswered');
+                    });
+                    optionsElement.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(optionsElement);
+                quizContainer.appendChild(questionElement);
+            });
+
+            // حساب النتيجة عند النقر على زر الإنهاء
+            submitButton.addEventListener('click', function() {
+                let score = 0;
+                let unansweredCount = 0;
+                
+                // تحديد الأسئلة غير المجاب عليها
+                quizData.forEach((questionData, index) => {
+                    const questionElement = quizContainer.querySelector(`.question[data-index="${index}"]`);
+                    
+                    if (questionData.selected === undefined) {
+                        questionElement.classList.add('unanswered');
+                        unansweredCount++;
+                    } else if (questionData.selected === questionData.answer) {
+                        score++;
+                    }
+                });
+                
+                // عرض النتيجة
+                const percentage = Math.round((score / quizData.length) * 100);
+                let resultText = `نتيجتك: ${score} من ${quizData.length} (${percentage}%)`;
+                
+                if (unansweredCount > 0) {
+                    resultText += `<br><span style="color: red;">عدد الأسئلة غير المجاب عليها: ${unansweredCount}</span>`;
+                }
+                
+                resultContainer.innerHTML = resultText;
+                resultContainer.style.display = 'block';
+                
+                // تلوين الإجابات
+                quizData.forEach((questionData, index) => {
+                    const questionElement = quizContainer.querySelector(`.question[data-index="${index}"]`);
+                    const options = questionElement.querySelectorAll('.option');
+                    
+                    options.forEach((option, optionIndex) => {
+                        if (optionIndex === questionData.answer) {
+                            option.classList.add('correct');
+                        }
+                        
+                        if (questionData.selected === optionIndex && optionIndex !== questionData.answer) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+                });
+                
+                // تعطيل جميع الخيارات بعد الإنهاء
+                const allOptions = quizContainer.querySelectorAll('.option');
+                allOptions.forEach(option => {
+                    option.style.pointerEvents = 'none';
+                });
+                
+                // إخفاء زر الإنهاء
+                submitButton.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
