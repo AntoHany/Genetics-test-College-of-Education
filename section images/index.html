@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان في علم الوراثة - الانقسام الخلوي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .question img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 8px 0;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .selected {
+            background-color: #d3d3d3;
+        }
+        .correct {
+            background-color: #a3d8a3;
+        }
+        .incorrect {
+            background-color: #ffa3a3;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            display: none;
+        }
+        .phase-image {
+            width: 250px;
+            height: 200px;
+            object-fit: contain;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>امتحان في علم الوراثة - الانقسام الخلوي</h1>
+        
+        <div id="quiz">
+            <!-- الأسئلة سيتم إضافتها بواسطة JavaScript -->
+        </div>
+        
+        <button id="submit-btn">إنهاء الإمتحان</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizData = [
+                {
+                    question: "الصورة أمامك تمثل أي مرحلة من مراحل الانقسام الاختزالي؟",
+                    options: ["الطور القلادي", "الطور التزاوجي", "الطور السنتروميري الضام", "الطور التشتتي"],
+                    answer: 0,
+                    image: "./media/الطور القلادي.jpg"
+                },
+                {
+                    question: "ما اسم المرحلة الموضحة في الصورة؟",
+                    options: ["الطور التزاوجي", "الطور الانفراجي", "الطور الاستوائي الأول", "الطور النهائي الثاني"],
+                    answer: 0,
+                    image: "./media/الطور التزاوجي.jpeg"
+                },
+                {
+                    question: "الصورة التالية تعرض مرحلة محددة تتميز بحدوث العبور، ما هي؟",
+                    options: ["الطور القلادي", "الطور السنتروميري الضام", "الطور الانفراجي", "الطور التشتتي"],
+                    answer: 1,
+                    image: "./media/السنترومير الضام.jpg"
+                },
+                {
+                    question: "ما المرحلة التي تظهر فيها الكروموسومات متباعدة ولكنها متشابكة في الكيازمات؟",
+                    options: ["الطور القلادي", "الطور التزاوجي", "الطور الانفراجي", "الطور التشتتي"],
+                    answer: 2,
+                    image: "./media/الانفراجي.png"
+                },
+                {
+                    question: "الصورة تمثل المرحلة الأخيرة من الطور التمهيدي الأول، ما اسمها؟",
+                    options: ["الطور القلادي", "الطور التزاوجي", "الطور الانفراجي", "الطور التشتتي"],
+                    answer: 3,
+                    image: "./media/tshtote.jpeg"
+                },
+                {
+                    question: "في أي مرحلة تصطف أزواج الكروموسومات المتماثلة في منتصف الخلية؟",
+                    options: ["الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول", "الطور التمهيدي الثاني"],
+                    answer: 0,
+                    image: "./media/الاستوائي الأول.jpg"
+                },
+                {
+                    question: "في أي مرحلة تصطف أزواج الكروموسومات المتماثلة في منتصف الخلية؟",
+                    options: ["الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول", "الطور التمهيدي الثاني"],
+                    answer: 0,
+                    image: "./media/الاستوائي الأول.jpeg"
+                },
+                {
+                    question: "ما اسم المرحلة التي تنفصل فيها الكروموسومات المتماثلة؟",
+                    options: ["الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول", "انقسام السيتوبلازم الأول"],
+                    answer: 1,
+                    image: "./media/الانفصالي الأول.jpeg"
+                },
+                {
+                    question: "الصورة أمامك تمثل نهاية الانقسام الاختزالي الأول، ما اسمها؟",
+                    options: ["الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول", "الطور التمهيدي الثاني"],
+                    answer: 2,
+                    image: "./media/النهائي الأول.jpg"
+                },
+                {
+                    question: "الصورة أمامك تمثل نهاية الانقسام الاختزالي الأول، ما اسمها؟",
+                    options: ["الطور الاستوائي الأول", "الطور الانفصالي الأول", "الطور النهائي الأول", "الطور التمهيدي الثاني"],
+                    answer: 2,
+                    image: "./media/النهائي الأول.jpeg"
+                },
+                {
+                    question: "ما اسم العملية الموضحة في الصورة التي تنقسم فيها الخلية إلى خليتين؟",
+                    options: ["الطور النهائي الأول", "انقسام السيتوبلازم الأول", "الطور التمهيدي الثاني", "الطور الاستوائي الثاني"],
+                    answer: 1,
+                    image: "./media/anksam sytoplazm1.jpeg"
+                },
+                {
+                    question: "الصورة تمثل بداية الانقسام الاختزالي الثاني، ما اسمها؟",
+                    options: ["الطور التمهيدي الثاني", "الطور الاستوائي الثاني", "الطور الانفصالي الثاني", "الطور النهائي الثاني"],
+                    answer: 0,
+                    image: "./media/التمهيدي الثاني.jpeg"
+                },
+                {
+                    question: "في أي مرحلة من الانقسام الاختزالي الثاني تصطف الكروموسومات في المنتصف؟",
+                    options: ["الطور التمهيدي الثاني", "الطور الاستوائي الثاني", "الطور الانفصالي الثاني", "الطور النهائي الثاني"],
+                    answer: 1,
+                    image: "./media/الاستوائي الثاني.jpeg"
+                },
+                {
+                    question: "ما المرحلة التي تنفصل فيها الكروماتيدات الشقيقة؟",
+                    options: ["الطور الاستوائي الثاني", "الطور الانفصالي الثاني", "الطور النهائي الثاني", "انقسام السيتوبلازم الثاني"],
+                    answer: 1,
+                    image: "./media/anfsaly2.jpeg"
+                },
+                {
+                    question: "الصورة أمامك تمثل نهاية الانقسام الاختزالي، ما اسمها؟",
+                    options: ["الطور الانفصالي الثاني", "الطور النهائي الثاني", "انقسام السيتوبلازم الثاني", "ظاهرة الرباعيات"],
+                    answer: 1,
+                    image: "./media/elnhaee2.jpeg"
+                },
+                {
+                    question: "ما اسم العملية التي تنقسم فيها الخلية إلى أربع خلايا أحادية الصبغة؟",
+                    options: ["انقسام السيتوبلازم الأول", "انقسام السيتوبلازم الثاني", "الطور النهائي الثاني", "ظاهرة الرباعيات"],
+                    answer: 1,
+                    image: "./media/anksam alsytoblazm2.jpeg"
+                },
+                {
+                    question: "ما الظاهرة الموضحة في الصورة التي تظهر فيها الكروموسومات على شكل مجموعات رباعية؟",
+                    options: ["الطور التزاوجي", "الطور السنتروميري الضام", "ظاهرة الرباعيات", "الطور الانفراجي"],
+                    answer: 2,
+                    image: "./media/fourth2.jpg"
+                },
+                {
+                    question: "ما الظاهرة الموضحة في الصورة التي تظهر فيها الكروموسومات على شكل مجموعات رباعية؟",
+                    options: ["الطور التزاوجي", "الطور السنتروميري الضام", "ظاهرة الرباعيات", "الطور الانفراجي"],
+                    answer: 2,
+                    image: "./media/fourth1.jpeg"
+                }
+            ];
+
+            const quizContainer = document.getElementById('quiz');
+            const submitButton = document.getElementById('submit-btn');
+            const resultContainer = document.getElementById('result');
+
+            // إنشاء الأسئلة وعرضها
+            quizData.forEach((questionData, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                
+                const questionText = document.createElement('h3');
+                questionText.textContent = `سؤال ${index + 1}: ${questionData.question}`;
+                questionElement.appendChild(questionText);
+                
+                if (questionData.image) {
+                    const imageElement = document.createElement('img');
+                    imageElement.src = questionData.image;
+                    imageElement.className = 'phase-image';
+                    imageElement.alt = 'صورة توضيحية للمرحلة';
+                    questionElement.appendChild(imageElement);
+                }
+                
+                const optionsElement = document.createElement('div');
+                optionsElement.className = 'options';
+                
+                questionData.options.forEach((option, optionIndex) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    optionElement.textContent = option;
+                    optionElement.dataset.index = optionIndex;
+                    optionElement.addEventListener('click', function() {
+                        // إزالة التحديد من جميع الخيارات في هذا السؤال
+                        const allOptions = this.parentElement.querySelectorAll('.option');
+                        allOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // تحديد الخيار الحالي
+                        this.classList.add('selected');
+                        
+                        // حفظ الإجابة المختارة
+                        questionData.selected = optionIndex;
+                    });
+                    optionsElement.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(optionsElement);
+                quizContainer.appendChild(questionElement);
+            });
+
+            // حساب النتيجة عند النقر على زر الإنهاء
+            submitButton.addEventListener('click', function() {
+                let score = 0;
+                
+                quizData.forEach(questionData => {
+                    if (questionData.selected !== undefined && questionData.selected === questionData.answer) {
+                        score++;
+                    }
+                });
+                
+                // عرض النتيجة
+                const percentage = Math.round((score / quizData.length) * 100);
+                resultContainer.textContent = `نتيجتك: ${score} من ${quizData.length} (${percentage}%)`;
+                resultContainer.style.display = 'block';
+                
+                // تلوين الإجابات
+                quizData.forEach((questionData, index) => {
+                    const questionElement = quizContainer.children[index];
+                    const options = questionElement.querySelectorAll('.option');
+                    
+                    options.forEach((option, optionIndex) => {
+                        if (optionIndex === questionData.answer) {
+                            option.classList.add('correct');
+                        }
+                        
+                        if (questionData.selected === optionIndex && optionIndex !== questionData.answer) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+                });
+                
+                // تعطيل جميع الخيارات بعد الإنهاء
+                const allOptions = quizContainer.querySelectorAll('.option');
+                allOptions.forEach(option => {
+                    option.style.pointerEvents = 'none';
+                });
+                
+                // إخفاء زر الإنهاء
+                submitButton.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
